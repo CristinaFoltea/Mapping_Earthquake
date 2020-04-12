@@ -38,5 +38,5 @@ let line2 = [
 // Create a polyline using the line coordinates and make the line red.
 L.polyline(line2, {
   color: "blue",
-  dashArray: '5'
+  dashArray: '10'
 }).addTo(map);
