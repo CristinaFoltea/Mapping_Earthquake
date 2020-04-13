@@ -13,7 +13,14 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 });
 
 // We create the tile layer that will be the background of our map.
-let outdoors = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/tiles/{z}/{x}/{y}?access_token={accessToken}',{
+let dark = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/{z}/{x}/{y}?access_token={accessToken}',{
+attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
+	maxZoom: 18,
+	accessToken: API_KEY
+});
+
+// We create the tile layer that will be the background of our map.
+let light = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token={accessToken}',{
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
 	maxZoom: 18,
 	accessToken: API_KEY
@@ -23,13 +30,14 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 let baseMaps = {
   Streets: streets,
   SatelliteStreets: satelliteStreets,
-  Outdoors: outdoors
+  Dark: dark,
+  Light: light
 };
 
 // Create the map object with a center and zoom level.
 let map = L.map("mapid", {
-  center: [39.5, -98.5],
-  zoom: 3,
+  center: [10, 15],
+  zoom: 2,
   layers: [streets]
 });
 
@@ -108,7 +116,7 @@ d3.json(earthquakeLink).then(function(data) {
       // We set the style for each circleMarker using our styleInfo function.
     style: styleInfo,
     // We create a popup for each circleMarker to display the magnitude and
-    //  location of the earthquake after the marker has been created and styled.
+    // location of the earthquake after the marker has been created and styled.
     onEachFeature: function(feature, layer) {
       layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
     }
@@ -148,12 +156,11 @@ d3.json(earthquakeLink).then(function(data) {
 const platesBoundriesLink = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
 
 d3.json(platesBoundriesLink).then(data => {
-  console.log(data)
   // Creating a GeoJSON layer with the retrieved data.
   // Creating a GeoJSON layer with the retrieved data.
   L.geoJson(data, {
     style: {
-      "color": "#ff7800",
+      "color": "#00A62F",
       "weight": 2,
     }
   }).addTo(tectonicPlatesOverlay);
